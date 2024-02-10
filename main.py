@@ -8,6 +8,14 @@ clock = pygame.time.Clock()
 running = True
 pygame.display.set_caption("Skelly Runner")
 
+font_1 = pygame.font.Font('fonts/skellyfont.ttf', 60)
+font_2 = pygame.font.Font('fonts/skellyfont_other.ttf', 60)
+
+title = font_1.render('Skelly Runner', False, 'white')
+title_2 = font_2.render('Skelly Runner', False, 'black')
+title_rect = title.get_rect(center=(450, 75))
+title_2_rect = title_2.get_rect(center=(450, 75))
+
 # Init surfs
 sky_surf_1 = pygame.image.load('./images/level/sky1.png').convert_alpha()
 sky_surf_2 = pygame.image.load('./images/level/sky2.png').convert_alpha()
@@ -92,6 +100,8 @@ while running:
     # RENDER YOUR GAME HERE
     screen.blit(sky_surf, sky_rect)
     screen.blit(ground_surf, ground_rect)
+    screen.blit(title, title_rect)
+    screen.blit(title_2, title_2_rect)
 
 
     # flip() the display to put your work on screen
