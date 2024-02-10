@@ -50,11 +50,29 @@ player_walk_8 = pygame.transform.rotozoom(player_walk_8, 0, 2)
 player_walk_9 = pygame.image.load('images/player/walk/walk_9.png').convert_alpha()
 player_walk_9 = pygame.transform.rotozoom(player_walk_9, 0, 2)
 player_walk = [player_walk_1, player_walk_2, player_walk_3, player_walk_4, player_walk_5, player_walk_6, player_walk_7, player_walk_8, player_walk_9]
+player_jump_1 = pygame.image.load('images/player/jump/jump1.png').convert_alpha()
+player_jump_1 = pygame.transform.rotozoom(player_jump_1, 0, 2)
+player_jump_2 = pygame.image.load('images/player/jump/jump2.png').convert_alpha()
+player_jump_2 = pygame.transform.rotozoom(player_jump_2, 0, 2)
+player_jump_3 = pygame.image.load('images/player/jump/jump3.png').convert_alpha()
+player_jump_3 = pygame.transform.rotozoom(player_jump_3, 0, 2)
+player_jump_4 = pygame.image.load('images/player/jump/jump4.png').convert_alpha()
+player_jump_4 = pygame.transform.rotozoom(player_jump_4, 0, 2)
+player_jump_5 = pygame.image.load('images/player/jump/jump5.png').convert_alpha()
+player_jump_5 = pygame.transform.rotozoom(player_jump_5, 0, 2)
+player_jump_6 = pygame.image.load('images/player/jump/jump6.png').convert_alpha()
+player_jump_6 = pygame.transform.rotozoom(player_jump_6, 0, 2)
+player_jump_7 = pygame.image.load('images/player/jump/jump7.png').convert_alpha()
+player_jump_7 = pygame.transform.rotozoom(player_jump_7, 0, 2)
+player_jump = [player_jump_1, player_jump_2, player_jump_3, player_jump_4, player_jump_5, player_jump_6, player_jump_7]
 
 # player jump
 player_index = 0
+player_jindex = 0
 
 player_surf = player_walk[player_index]
+player_jurf = player_jump[player_index]
+player_jrect = player_jurf.get_rect(midbottom=(100, 615))
 player_rect = player_surf.get_rect(midbottom=(100, 615))
 player_gravity = 0
 
@@ -76,8 +94,11 @@ def background_animations():
 def player_animation():
     global player_surf, player_index
 
-    if player_rect.bottom < 345:
-        player_surf = player_jump
+    if player_rect.bottom < 615:
+        player_index += 0.3
+        if player_index >= len(player_jump):
+            player_index = 0
+        player_surf = player_jump[int(player_index)]
     else:
         player_index += 0.1
         if player_index >= len(player_walk):
