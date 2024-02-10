@@ -49,7 +49,8 @@ player_walk_8 = pygame.image.load('images/player/walk/walk_8.png').convert_alpha
 player_walk_8 = pygame.transform.rotozoom(player_walk_8, 0, 2)
 player_walk_9 = pygame.image.load('images/player/walk/walk_9.png').convert_alpha()
 player_walk_9 = pygame.transform.rotozoom(player_walk_9, 0, 2)
-player_walk = [player_walk_1, player_walk_2, player_walk_3, player_walk_4, player_walk_5, player_walk_6, player_walk_7, player_walk_8, player_walk_9]
+player_walk = [player_walk_1, player_walk_2, player_walk_3, player_walk_4, player_walk_5, player_walk_6, player_walk_7,
+               player_walk_8, player_walk_9]
 player_jump_1 = pygame.image.load('images/player/jump/jump1.png').convert_alpha()
 player_jump_1 = pygame.transform.rotozoom(player_jump_1, 0, 2)
 player_jump_2 = pygame.image.load('images/player/jump/jump2.png').convert_alpha()
@@ -73,10 +74,10 @@ player_surf = player_walk[player_index]
 player_rect = player_surf.get_rect(midbottom=(100, 615))
 player_gravity = 0
 
+
 # FUNCTIONS
 def background_animations():
-    global sky_surf, ground_surf, sky_rect, ground_rect
-
+    global sky_surf, sky_rect, ground_rect, ground_surf, sky_index
     # Move the sky horizontally
     sky_rect.x -= 1
     # If the sky has moved completely off-screen, reset its position
@@ -87,6 +88,7 @@ def background_animations():
     # If the ground has moved completely off-screen, reset its position
     if ground_rect.x <= -85:
         ground_rect.x = 0  # Reset to the original position
+
 
 def player_animation():
     global player_surf, player_index
@@ -103,6 +105,7 @@ def player_animation():
         player_surf = player_walk[int(player_index)]
     # player walking animation if player is on the floor
     # display jump surface when player is not on floor
+
 
 # CLASSES
 
@@ -140,8 +143,6 @@ while running:
         player_rect.bottom = 615
     player_animation()
     screen.blit(player_surf, player_rect)
-
-
 
     # flip() the display to put your work on screen
     pygame.display.flip()
