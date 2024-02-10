@@ -8,53 +8,103 @@ clock = pygame.time.Clock()
 running = True
 pygame.display.set_caption("Skelly Runner")
 
-# Init surfs
-sky_surf = pygame.image.load('./images/level/bigsky.png').convert_alpha()
-ground_surf = pygame.image.load('./images/level/ground.png').convert_alpha()
+font_1 = pygame.font.Font('fonts/skellyfont.ttf', 60)
+font_2 = pygame.font.Font('fonts/skellyfont_other.ttf', 60)
 
+title = font_1.render('Skelly Runner', False, 'white')
+title_2 = font_2.render('Skelly Runner', False, 'black')
+title_rect = title.get_rect(center=(450, 75))
+title_2_rect = title_2.get_rect(center=(450, 75))
+
+# Init surfs
+sky_surf_1 = pygame.image.load('./images/level/sky1.png').convert_alpha()
+sky_surf_2 = pygame.image.load('./images/level/sky2.png').convert_alpha()
+sky_surf_3 = pygame.image.load('./images/level/sky3.png').convert_alpha()
+sky_surf_4 = pygame.image.load('./images/level/sky4.png').convert_alpha()
+sky_surf_5 = pygame.image.load('./images/level/sky5.png').convert_alpha()
+sky_index = 0
+sky_animation = [sky_surf_1, sky_surf_2, sky_surf_3, sky_surf_4, sky_surf_5]
+
+sky_surf = sky_animation[sky_index]
+sky_rect = sky_surf.get_rect(center=(800, 500))
+ground_surf = pygame.image.load('./images/level/ground.png').convert_alpha()
+ground_rect = ground_surf.get_rect(bottomright=(0, 730))
+
+# player surfs
+player_walk_1 = pygame.image.load('images/player/walk/walk_1.png').convert_alpha()
+player_walk_1 = pygame.transform.rotozoom(player_walk_1, 0, 2)
+player_walk_2 = pygame.image.load('images/player/walk/walk_2.png').convert_alpha()
+player_walk_2 = pygame.transform.rotozoom(player_walk_2, 0, 2)
+player_walk_3 = pygame.image.load('images/player/walk/walk_3.png').convert_alpha()
+player_walk_3 = pygame.transform.rotozoom(player_walk_3, 0, 2)
+player_walk_4 = pygame.image.load('images/player/walk/walk_4.png').convert_alpha()
+player_walk_4 = pygame.transform.rotozoom(player_walk_4, 0, 2)
+player_walk_5 = pygame.image.load('images/player/walk/walk_5.png').convert_alpha()
+player_walk_5 = pygame.transform.rotozoom(player_walk_5, 0, 2)
+player_walk_6 = pygame.image.load('images/player/walk/walk_6.png').convert_alpha()
+player_walk_6 = pygame.transform.rotozoom(player_walk_6, 0, 2)
+player_walk_7 = pygame.image.load('images/player/walk/walk_7.png').convert_alpha()
+player_walk_7 = pygame.transform.rotozoom(player_walk_7, 0, 2)
+player_walk_8 = pygame.image.load('images/player/walk/walk_8.png').convert_alpha()
+player_walk_8 = pygame.transform.rotozoom(player_walk_8, 0, 2)
+player_walk_9 = pygame.image.load('images/player/walk/walk_9.png').convert_alpha()
+player_walk_9 = pygame.transform.rotozoom(player_walk_9, 0, 2)
+player_walk = [player_walk_1, player_walk_2, player_walk_3, player_walk_4, player_walk_5, player_walk_6, player_walk_7, player_walk_8, player_walk_9]
+player_jump_1 = pygame.image.load('images/player/jump/jump1.png').convert_alpha()
+player_jump_1 = pygame.transform.rotozoom(player_jump_1, 0, 2)
+player_jump_2 = pygame.image.load('images/player/jump/jump2.png').convert_alpha()
+player_jump_2 = pygame.transform.rotozoom(player_jump_2, 0, 2)
+player_jump_3 = pygame.image.load('images/player/jump/jump3.png').convert_alpha()
+player_jump_3 = pygame.transform.rotozoom(player_jump_3, 0, 2)
+player_jump_4 = pygame.image.load('images/player/jump/jump4.png').convert_alpha()
+player_jump_4 = pygame.transform.rotozoom(player_jump_4, 0, 2)
+player_jump_5 = pygame.image.load('images/player/jump/jump5.png').convert_alpha()
+player_jump_5 = pygame.transform.rotozoom(player_jump_5, 0, 2)
+player_jump_6 = pygame.image.load('images/player/jump/jump6.png').convert_alpha()
+player_jump_6 = pygame.transform.rotozoom(player_jump_6, 0, 2)
+player_jump_7 = pygame.image.load('images/player/jump/jump7.png').convert_alpha()
+player_jump_7 = pygame.transform.rotozoom(player_jump_7, 0, 2)
+player_jump = [player_jump_1, player_jump_2, player_jump_3, player_jump_4, player_jump_5, player_jump_6, player_jump_7]
+
+# player jump
+player_index = 0
+
+player_surf = player_walk[player_index]
+player_rect = player_surf.get_rect(midbottom=(100, 615))
+player_gravity = 0
 
 # FUNCTIONS
-# def animations():
-#     global sky_surf, sky_surf_1, sky_surf_2, sky_index
-#
-#     sky_index += 0.1
-#     if sky_index >= len(sky_animation):
-#         sky_index = 0
-#     sky_surf = sky_animation[int(sky_index)]
+def background_animations():
+    global sky_surf, ground_surf, sky_rect, ground_rect
 
+    # Move the sky horizontally
+    sky_rect.x -= 1
+    # If the sky has moved completely off-screen, reset its position
+    if sky_rect.right <= 0:
+        sky_rect.x = 900
+    # Move the ground horizontally at a slower speed
+    ground_rect.x -= 2
+    # If the ground has moved completely off-screen, reset its position
+    if ground_rect.x <= -85:
+        ground_rect.x = 0  # Reset to the original position
+
+def player_animation():
+    global player_surf, player_index
+
+    if player_rect.bottom < 615:
+        player_index += 0.2
+        if player_index >= len(player_jump):
+            player_index = 0
+        player_surf = player_jump[int(player_index)]
+    else:
+        player_index += 0.1
+        if player_index >= len(player_walk):
+            player_index = 0
+        player_surf = player_walk[int(player_index)]
+    # player walking animation if player is on the floor
+    # display jump surface when player is not on floor
 
 # CLASSES
-class SpriteSheet(object):
-    def __init__(self, filename):
-        try:
-            self.sheet = pygame.image.load(filename).convert()
-        except pygame.error as message:
-            print('Unable to load sprite sheet image:', filename)
-            raise SystemExit(message)
-
-    # Load a specific image from a specific rectangle
-    def image_at(self, rectangle, colorkey=None):
-        """Loads image from x,y,x+offset,y+offset"""
-        rect = pygame.Rect(rectangle)
-        image = pygame.Surface(rect.size).convert()
-        image.blit(self.sheet, (0, 0), rect)
-        if colorkey is not None:
-            if colorkey is -1:
-                colorkey = image.get_at((0, 0))
-            image.set_colorkey(colorkey, pygame.RLEACCEL)
-        return image
-
-    # Load a bunch of images and return them as a list
-    def images_at(self, rects, colorkey=None):
-        """Loads multiple images, supply a list of coordinates"""
-        return [self.image_at(rect, colorkey) for rect in rects]
-
-    # Load a whole strip of images
-    def load_strip(self, rect, image_count, colorkey=None):
-        """Loads a strip of images and returns them as a list"""
-        tups = [(rect[0] + rect[2] * x, rect[1], rect[2], rect[3])
-                for x in range(image_count)]
-        return self.images_at(tups, colorkey)
 
 
 while running:
@@ -64,14 +114,34 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             exit()
+        if running:
+            if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom >= 615:
+                if player_rect.collidepoint(event.pos):
+                    player_gravity = -20
+            if event.type == pygame.KEYDOWN and player_rect.bottom >= 450:
+                if event.key == pygame.K_SPACE:
+                    player_gravity = -20
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("purple")
 
-    # RENDER YOUR GAME HERE
+    background_animations()
 
-    screen.blit(sky_surf, (0, 0))
-    screen.blit(ground_surf, (0, 600))
+    screen.fill((102, 113, 159))
+
+    # RENDER YOUR GAME HERE
+    screen.blit(sky_surf, sky_rect)
+    screen.blit(ground_surf, ground_rect)
+    screen.blit(title, title_rect)
+    screen.blit(title_2, title_2_rect)
+    player_gravity += 1
+    player_rect.y += player_gravity
+    if player_rect.bottom >= 615:
+        player_rect.bottom = 615
+    player_animation()
+    screen.blit(player_surf, player_rect)
+
+
 
     # flip() the display to put your work on screen
     pygame.display.flip()
