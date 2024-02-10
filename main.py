@@ -68,11 +68,8 @@ player_jump = [player_jump_1, player_jump_2, player_jump_3, player_jump_4, playe
 
 # player jump
 player_index = 0
-player_jindex = 0
 
 player_surf = player_walk[player_index]
-player_jurf = player_jump[player_index]
-player_jrect = player_jurf.get_rect(midbottom=(100, 615))
 player_rect = player_surf.get_rect(midbottom=(100, 615))
 player_gravity = 0
 
@@ -86,7 +83,7 @@ def background_animations():
     if sky_rect.right <= 0:
         sky_rect.x = 900
     # Move the ground horizontally at a slower speed
-    ground_rect.x -= 3
+    ground_rect.x -= 2
     # If the ground has moved completely off-screen, reset its position
     if ground_rect.x <= -85:
         ground_rect.x = 0  # Reset to the original position
@@ -118,10 +115,10 @@ while running:
             running = False
             exit()
         if running:
-            if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom >= 345:
+            if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom >= 615:
                 if player_rect.collidepoint(event.pos):
                     player_gravity = -20
-            if event.type == pygame.KEYDOWN and player_rect.bottom >= 345:
+            if event.type == pygame.KEYDOWN and player_rect.bottom >= 450:
                 if event.key == pygame.K_SPACE:
                     player_gravity = -20
 
