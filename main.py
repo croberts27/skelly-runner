@@ -30,49 +30,77 @@ sky_rect = sky_surf.get_rect(center=(800, 500))
 ground_surf = pygame.image.load('./images/level/ground.png').convert_alpha()
 ground_rect = ground_surf.get_rect(bottomright=(0, 730))
 
-# player surfs
-player_walk_1 = pygame.image.load('images/player/walk/walk_1.png').convert_alpha()
-player_walk_1 = pygame.transform.rotozoom(player_walk_1, 0, 2)
-player_walk_2 = pygame.image.load('images/player/walk/walk_2.png').convert_alpha()
-player_walk_2 = pygame.transform.rotozoom(player_walk_2, 0, 2)
-player_walk_3 = pygame.image.load('images/player/walk/walk_3.png').convert_alpha()
-player_walk_3 = pygame.transform.rotozoom(player_walk_3, 0, 2)
-player_walk_4 = pygame.image.load('images/player/walk/walk_4.png').convert_alpha()
-player_walk_4 = pygame.transform.rotozoom(player_walk_4, 0, 2)
-player_walk_5 = pygame.image.load('images/player/walk/walk_5.png').convert_alpha()
-player_walk_5 = pygame.transform.rotozoom(player_walk_5, 0, 2)
-player_walk_6 = pygame.image.load('images/player/walk/walk_6.png').convert_alpha()
-player_walk_6 = pygame.transform.rotozoom(player_walk_6, 0, 2)
-player_walk_7 = pygame.image.load('images/player/walk/walk_7.png').convert_alpha()
-player_walk_7 = pygame.transform.rotozoom(player_walk_7, 0, 2)
-player_walk_8 = pygame.image.load('images/player/walk/walk_8.png').convert_alpha()
-player_walk_8 = pygame.transform.rotozoom(player_walk_8, 0, 2)
-player_walk_9 = pygame.image.load('images/player/walk/walk_9.png').convert_alpha()
-player_walk_9 = pygame.transform.rotozoom(player_walk_9, 0, 2)
-player_walk = [player_walk_1, player_walk_2, player_walk_3, player_walk_4, player_walk_5, player_walk_6, player_walk_7,
-               player_walk_8, player_walk_9]
-player_jump_1 = pygame.image.load('images/player/jump/jump1.png').convert_alpha()
-player_jump_1 = pygame.transform.rotozoom(player_jump_1, 0, 2)
-player_jump_2 = pygame.image.load('images/player/jump/jump2.png').convert_alpha()
-player_jump_2 = pygame.transform.rotozoom(player_jump_2, 0, 2)
-player_jump_3 = pygame.image.load('images/player/jump/jump3.png').convert_alpha()
-player_jump_3 = pygame.transform.rotozoom(player_jump_3, 0, 2)
-player_jump_4 = pygame.image.load('images/player/jump/jump4.png').convert_alpha()
-player_jump_4 = pygame.transform.rotozoom(player_jump_4, 0, 2)
-player_jump_5 = pygame.image.load('images/player/jump/jump5.png').convert_alpha()
-player_jump_5 = pygame.transform.rotozoom(player_jump_5, 0, 2)
-player_jump_6 = pygame.image.load('images/player/jump/jump6.png').convert_alpha()
-player_jump_6 = pygame.transform.rotozoom(player_jump_6, 0, 2)
-player_jump_7 = pygame.image.load('images/player/jump/jump7.png').convert_alpha()
-player_jump_7 = pygame.transform.rotozoom(player_jump_7, 0, 2)
-player_jump = [player_jump_1, player_jump_2, player_jump_3, player_jump_4, player_jump_5, player_jump_6, player_jump_7]
 
-# player jump
-player_index = 0
+# CLASSES
+class Player:
+    def __init__(self):
+        # player surfs
+        self.player_walk_1 = pygame.image.load('images/player/walk/walk_1.png').convert_alpha()
+        self.player_walk_1 = pygame.transform.rotozoom(self.player_walk_1, 0, 2)
+        self.player_walk_2 = pygame.image.load('images/player/walk/walk_2.png').convert_alpha()
+        self.player_walk_2 = pygame.transform.rotozoom(self.player_walk_2, 0, 2)
+        self.player_walk_3 = pygame.image.load('images/player/walk/walk_3.png').convert_alpha()
+        self.player_walk_3 = pygame.transform.rotozoom(self.player_walk_3, 0, 2)
+        self.player_walk_4 = pygame.image.load('images/player/walk/walk_4.png').convert_alpha()
+        self.player_walk_4 = pygame.transform.rotozoom(self.player_walk_4, 0, 2)
+        self.player_walk_5 = pygame.image.load('images/player/walk/walk_5.png').convert_alpha()
+        self.player_walk_5 = pygame.transform.rotozoom(self.player_walk_5, 0, 2)
+        self.player_walk_6 = pygame.image.load('images/player/walk/walk_6.png').convert_alpha()
+        self.player_walk_6 = pygame.transform.rotozoom(self.player_walk_6, 0, 2)
+        self.player_walk_7 = pygame.image.load('images/player/walk/walk_7.png').convert_alpha()
+        self.player_walk_7 = pygame.transform.rotozoom(self.player_walk_7, 0, 2)
+        self.player_walk_8 = pygame.image.load('images/player/walk/walk_8.png').convert_alpha()
+        self.player_walk_8 = pygame.transform.rotozoom(self.player_walk_8, 0, 2)
+        self.player_walk_9 = pygame.image.load('images/player/walk/walk_9.png').convert_alpha()
+        self.player_walk_9 = pygame.transform.rotozoom(self.player_walk_9, 0, 2)
+        self.player_walk = [self.player_walk_1, self.player_walk_2, self.player_walk_3, self.player_walk_4,
+                            self.player_walk_5, self.player_walk_6, self.player_walk_7,
+                            self.player_walk_8, self.player_walk_9]
 
-player_surf = player_walk[player_index]
-player_rect = player_surf.get_rect(midbottom=(100, 615))
-player_gravity = 0
+        self.player_jump_1 = pygame.image.load('images/player/jump/jump1.png').convert_alpha()
+        self.player_jump_1 = pygame.transform.rotozoom(self.player_jump_1, 0, 2)
+        self.player_jump_2 = pygame.image.load('images/player/jump/jump2.png').convert_alpha()
+        self.player_jump_2 = pygame.transform.rotozoom(self.player_jump_2, 0, 2)
+        self.player_jump_3 = pygame.image.load('images/player/jump/jump3.png').convert_alpha()
+        self.player_jump_3 = pygame.transform.rotozoom(self.player_jump_3, 0, 2)
+        self.player_jump_4 = pygame.image.load('images/player/jump/jump4.png').convert_alpha()
+        self.player_jump_4 = pygame.transform.rotozoom(self.player_jump_4, 0, 2)
+        self.player_jump_5 = pygame.image.load('images/player/jump/jump5.png').convert_alpha()
+        self.player_jump_5 = pygame.transform.rotozoom(self.player_jump_5, 0, 2)
+        self.player_jump_6 = pygame.image.load('images/player/jump/jump6.png').convert_alpha()
+        self.player_jump_6 = pygame.transform.rotozoom(self.player_jump_6, 0, 2)
+        self.player_jump_7 = pygame.image.load('images/player/jump/jump7.png').convert_alpha()
+        self.player_jump_7 = pygame.transform.rotozoom(self.player_jump_7, 0, 2)
+        self.player_jump = [self.player_jump_1, self.player_jump_2, self.player_jump_3, self.player_jump_4,
+                            self.player_jump_5, self.player_jump_6, self.player_jump_7]
+
+        self.player_index = 0
+
+        self.player_surf = self.player_walk[self.player_index]
+        self.player_rect = self.player_surf.get_rect(midbottom=(100, 615))
+        self.player_gravity = 0
+
+    def player_animation(self):
+        if self.player_gravity < 0:  # Player is jumping
+            self.player_index += 0.2
+            if self.player_index >= len(self.player_jump):
+                self.player_index = 0
+            self.player_surf = self.player_jump[int(self.player_index)]
+        elif self.player_rect.bottom < 615:  # Player is falling
+            self.player_index = 0  # Reset the animation index
+            self.player_surf = self.player_jump[0]  # Use the first frame of the jump animation
+        else:  # Player is walking
+            self.player_index += 0.1
+            if self.player_index >= len(self.player_walk):
+                self.player_index = 0
+            self.player_surf = self.player_walk[int(self.player_index)]
+
+    def jump(self):
+        if self.player_rect.bottom >= 615:  # Check if the player is on the ground
+            self.player_gravity = -20  # Apply an initial jump velocity
+
+
+player = Player()
 
 
 # FUNCTIONS
@@ -90,40 +118,14 @@ def background_animations():
         ground_rect.x = 0  # Reset to the original position
 
 
-def player_animation():
-    global player_surf, player_index
-
-    if player_rect.bottom < 615:
-        player_index += 0.2
-        if player_index >= len(player_jump):
-            player_index = 0
-        player_surf = player_jump[int(player_index)]
-    else:
-        player_index += 0.1
-        if player_index >= len(player_walk):
-            player_index = 0
-        player_surf = player_walk[int(player_index)]
-    # player walking animation if player is on the floor
-    # display jump surface when player is not on floor
-
-
-# CLASSES
-
-
 while running:
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
             exit()
-        if running:
-            if event.type == pygame.MOUSEBUTTONDOWN and player_rect.bottom >= 615:
-                if player_rect.collidepoint(event.pos):
-                    player_gravity = -20
-            if event.type == pygame.KEYDOWN and player_rect.bottom >= 450:
-                if event.key == pygame.K_SPACE:
-                    player_gravity = -20
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                player.jump()
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("purple")
@@ -137,12 +139,12 @@ while running:
     screen.blit(ground_surf, ground_rect)
     screen.blit(title, title_rect)
     screen.blit(title_2, title_2_rect)
-    player_gravity += 1
-    player_rect.y += player_gravity
-    if player_rect.bottom >= 615:
-        player_rect.bottom = 615
-    player_animation()
-    screen.blit(player_surf, player_rect)
+    player.player_gravity += 1
+    player.player_rect.y += player.player_gravity  # Update player's position based on gravity
+    if player.player_rect.bottom >= 615:
+        player.player_rect.bottom = 615
+    player.player_animation()
+    screen.blit(player.player_surf, player.player_rect)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
