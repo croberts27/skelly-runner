@@ -17,8 +17,6 @@ title_rect = title.get_rect(center=(450, 75))
 title_2_rect = title_2.get_rect(center=(450, 75))
 
 
-
-
 # CLASSES
 class Player:
     def __init__(self):
@@ -86,6 +84,7 @@ class Player:
     def jump(self):
         if self.player_rect.bottom >= 615:  # Check if the player is on the ground
             self.player_gravity = -20  # Apply an initial jump velocity
+
 
 class Background:
 
@@ -165,8 +164,7 @@ class Enemy:
         self.enemy_attack_surf = self.enemy_attack[self.enemy_attack_index]
         self.enemy_attack_rect = self.enemy_attack_surf.get_rect(midbottom=(1200, 615))
 
-
-    def enemy_walk_animation(self):
+    def enemy_animation(self):
         self.enemy_rect.bottom = 615
         self.enemy_index += 0.2
         if self.enemy_index >= len(self.enemy_walk):
@@ -175,6 +173,7 @@ class Enemy:
         self.enemy_rect.x -= 2
         if self.enemy_rect.right <= 0:
             self.enemy_rect.right = 1200
+        if self.enemy_rect.left.colliderect()
 
     def enemy_attack_animation(self):
         self.enemy_attack_rect.bottom = 615
@@ -192,8 +191,6 @@ player = Player()
 background = Background()
 
 enemy = Enemy()
-
-
 
 while running:
     for event in pygame.event.get():
@@ -222,15 +219,7 @@ while running:
         player.player_rect.bottom = 615
     player.player_animation()
     screen.blit(player.player_surf, player.player_rect)
-
-    enemy.enemy_walk_animation()
-
-    if enemy.enemy_rect.colliderect(player.player_rect):
-        print("Collision detected!")  # Add this line for debugging
-        enemy.enemy_attack_animation()
-    else:
-        print("No collision")
-
+    enemy.enemy_animation()
     screen.blit(enemy.enemy_surf, enemy.enemy_rect)
     screen.blit(enemy.enemy_attack_surf, enemy.enemy_attack_rect)
 
@@ -240,3 +229,4 @@ while running:
     clock.tick(60)  # limits FPS to 60
 
 pygame.quit()
+exit()
