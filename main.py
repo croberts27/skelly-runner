@@ -116,9 +116,48 @@ class Background:
         if self.ground_rect.x <= -85:
             self.ground_rect.x = 0  # Reset to the original position
 
+
+class Enemy:
+    def __init__(self):
+        self.enemy_walk_1 = pygame.image.load('images/enemy/walk/enemy_walk_1.png').convert_alpha()
+        self.enemy_walk_1 = pygame.transform.rotozoom(self.enemy_walk_1, 0, 2)
+        self.enemy_walk_2 = pygame.image.load('images/enemy/walk/enemy_walk_2.png').convert_alpha()
+        self.enemy_walk_2 = pygame.transform.rotozoom(self.enemy_walk_2, 0, 2)
+        self.enemy_walk_3 = pygame.image.load('images/enemy/walk/enemy_walk_3.png').convert_alpha()
+        self.enemy_walk_3 = pygame.transform.rotozoom(self.enemy_walk_3, 0, 2)
+        self.enemy_walk_4 = pygame.image.load('images/enemy/walk/enemy_walk_4.png').convert_alpha()
+        self.enemy_walk_4 = pygame.transform.rotozoom(self.enemy_walk_4, 0, 2)
+        self.enemy_walk_5 = pygame.image.load('images/enemy/walk/enemy_walk_5.png').convert_alpha()
+        self.enemy_walk_5 = pygame.transform.rotozoom(self.enemy_walk_5, 0, 2)
+        self.enemy_walk_6 = pygame.image.load('images/enemy/walk/enemy_walk_6.png').convert_alpha()
+        self.enemy_walk_6 = pygame.transform.rotozoom(self.enemy_walk_6, 0, 2)
+        self.enemy_walk_7 = pygame.image.load('images/enemy/walk/enemy_walk_7.png').convert_alpha()
+        self.enemy_walk_7 = pygame.transform.rotozoom(self.enemy_walk_7, 0, 2)
+        self.enemy_walk_8 = pygame.image.load('images/enemy/walk/enemy_walk_8.png').convert_alpha()
+        self.enemy_walk_8 = pygame.transform.rotozoom(self.enemy_walk_8, 0, 2)
+        self.enemy_walk_9 = pygame.image.load('images/enemy/walk/enemy_walk_9.png').convert_alpha()
+        self.enemy_walk_9 = pygame.transform.rotozoom(self.enemy_walk_9, 0, 2)
+        self.enemy_walk = [self.enemy_walk_1, self.enemy_walk_2, self.enemy_walk_3, self.enemy_walk_4,
+                           self.enemy_walk_5, self.enemy_walk_6, self.enemy_walk_7, self.enemy_walk_8,
+                           self.enemy_walk_9]
+        self.enemy_index = 0
+
+        self.enemy_surf = self.enemy_walk[self.enemy_index]
+        self.enemy_rect = self.enemy_surf.get_rect(midbottom=(800, 615))
+        self.enemy_gravity = 0
+
+
+    def enemy_animation(self):
+        self.enemy_index += 0.2
+        if self.enemy_index >= len(self.enemy_walk):
+            self.enemy_index = 0
+        self.enemy_surf = self.enemy_walk[int(self.enemy_index)]
+
 player = Player()
 
 background = Background()
+
+enemy = Enemy()
 
 
 
@@ -149,6 +188,8 @@ while running:
         player.player_rect.bottom = 615
     player.player_animation()
     screen.blit(player.player_surf, player.player_rect)
+    screen.blit(enemy.enemy_surf, enemy.enemy_rect)
+    enemy.enemy_animation()
 
     # flip() the display to put your work on screen
     pygame.display.flip()
