@@ -119,6 +119,7 @@ class Background:
 
 class Enemy:
     def __init__(self):
+        super().__init__()
         self.enemy_walk_1 = pygame.image.load('images/enemy/walk/enemy_walk_1.png').convert_alpha()
         self.enemy_walk_1 = pygame.transform.rotozoom(self.enemy_walk_1, 0, 2)
         self.enemy_walk_2 = pygame.image.load('images/enemy/walk/enemy_walk_2.png').convert_alpha()
@@ -162,15 +163,18 @@ class Enemy:
         self.enemy_attack = [self.enemy_attack_1, self.enemy_attack_2, self.enemy_attack_3, self.enemy_attack_4,
                              self.enemy_attack_5, self.enemy_attack_6]
         self.enemy_attack_surf = self.enemy_attack[self.enemy_attack_index]
-        self.enemy_attack_rect = self.enemy_attack_surf.get_rect(midbottom=(800, 615))
+        self.enemy_attack_rect = self.enemy_attack_surf.get_rect(midbottom=(1200, 615))
 
 
     def enemy_walk_animation(self):
         self.enemy_rect.bottom = 615
-        self.enemy_index += 0.1
+        self.enemy_index += 0.2
         if self.enemy_index >= len(self.enemy_walk):
             self.enemy_index = 0
         self.enemy_surf = self.enemy_walk[int(self.enemy_index)]
+        self.enemy_rect.x -= 2
+        if self.enemy_rect.right <= 0:
+            self.enemy_rect.right = 1200
 
     def enemy_attack_animation(self):
         self.enemy_attack_rect.bottom = 615
@@ -180,7 +184,7 @@ class Enemy:
         self.enemy_attack_surf = self.enemy_attack[int(self.enemy_attack_index)]
         self.enemy_attack_rect.x -= 2
         if self.enemy_attack_rect.right <= 0:
-            self.enemy_attack_rect = self.enemy_attack_rect
+            self.enemy_attack_rect.right = 1200
 
 
 player = Player()
@@ -218,7 +222,16 @@ while running:
         player.player_rect.bottom = 615
     player.player_animation()
     screen.blit(player.player_surf, player.player_rect)
-    enemy.enemy_attack_animation()
+
+    enemy.enemy_walk_animation()
+
+    if enemy.enemy_rect.colliderect(player.player_rect):
+        print("Collision detected!")  # Add this line for debugging
+        enemy.enemy_attack_animation()
+    else:
+        print("No collision")
+
+    screen.blit(enemy.enemy_surf, enemy.enemy_rect)
     screen.blit(enemy.enemy_attack_surf, enemy.enemy_attack_rect)
 
     # flip() the display to put your work on screen
