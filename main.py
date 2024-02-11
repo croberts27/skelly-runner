@@ -16,19 +16,7 @@ title_2 = font_2.render('Skelly Runner', False, 'black')
 title_rect = title.get_rect(center=(450, 75))
 title_2_rect = title_2.get_rect(center=(450, 75))
 
-# Init surfs
-sky_surf_1 = pygame.image.load('./images/level/sky1.png').convert_alpha()
-sky_surf_2 = pygame.image.load('./images/level/sky2.png').convert_alpha()
-sky_surf_3 = pygame.image.load('./images/level/sky3.png').convert_alpha()
-sky_surf_4 = pygame.image.load('./images/level/sky4.png').convert_alpha()
-sky_surf_5 = pygame.image.load('./images/level/sky5.png').convert_alpha()
-sky_index = 0
-sky_animation = [sky_surf_1, sky_surf_2, sky_surf_3, sky_surf_4, sky_surf_5]
 
-sky_surf = sky_animation[sky_index]
-sky_rect = sky_surf.get_rect(center=(800, 500))
-ground_surf = pygame.image.load('./images/level/ground.png').convert_alpha()
-ground_rect = ground_surf.get_rect(bottomright=(0, 730))
 
 
 # CLASSES
@@ -99,23 +87,39 @@ class Player:
         if self.player_rect.bottom >= 615:  # Check if the player is on the ground
             self.player_gravity = -20  # Apply an initial jump velocity
 
+class Background:
+
+    def __init__(self):
+        # Init surfs
+        self.sky_surf_1 = pygame.image.load('./images/level/sky1.png').convert_alpha()
+        self.sky_surf_2 = pygame.image.load('./images/level/sky2.png').convert_alpha()
+        self.sky_surf_3 = pygame.image.load('./images/level/sky3.png').convert_alpha()
+        self.sky_surf_4 = pygame.image.load('./images/level/sky4.png').convert_alpha()
+        self.sky_surf_5 = pygame.image.load('./images/level/sky5.png').convert_alpha()
+        self.sky_index = 0
+        self.sky_animation = [self.sky_surf_1, self.sky_surf_2, self.sky_surf_3, self.sky_surf_4, self.sky_surf_5]
+
+        self.sky_surf = self.sky_animation[self.sky_index]
+        self.sky_rect = self.sky_surf.get_rect(center=(800, 500))
+        self.ground_surf = pygame.image.load('./images/level/ground.png').convert_alpha()
+        self.ground_rect = self.ground_surf.get_rect(bottomright=(0, 730))
+
+    def background_animations(self):
+        # Move the sky horizontally
+        self.sky_rect.x -= 3
+        # If the sky has moved completely off-screen, reset its position
+        if self.sky_rect.right <= 0:
+            self.sky_rect.x = 900
+        # Move the ground horizontally at a slower speed
+        self.ground_rect.x -= 2
+        # If the ground has moved completely off-screen, reset its position
+        if self.ground_rect.x <= -85:
+            self.ground_rect.x = 0  # Reset to the original position
 
 player = Player()
 
+background = Background()
 
-# FUNCTIONS
-def background_animations():
-    global sky_surf, sky_rect, ground_rect, ground_surf, sky_index
-    # Move the sky horizontally
-    sky_rect.x -= 1
-    # If the sky has moved completely off-screen, reset its position
-    if sky_rect.right <= 0:
-        sky_rect.x = 900
-    # Move the ground horizontally at a slower speed
-    ground_rect.x -= 2
-    # If the ground has moved completely off-screen, reset its position
-    if ground_rect.x <= -85:
-        ground_rect.x = 0  # Reset to the original position
 
 
 while running:
@@ -130,13 +134,13 @@ while running:
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("purple")
 
-    background_animations()
+    background.background_animations()
 
     screen.fill((102, 113, 159))
 
     # RENDER YOUR GAME HERE
-    screen.blit(sky_surf, sky_rect)
-    screen.blit(ground_surf, ground_rect)
+    screen.blit(background.sky_surf, background.sky_rect)
+    screen.blit(background.ground_surf, background.ground_rect)
     screen.blit(title, title_rect)
     screen.blit(title_2, title_2_rect)
     player.player_gravity += 1
