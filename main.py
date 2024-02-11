@@ -106,7 +106,7 @@ class Background:
 
     def background_animations(self):
         # Move the sky horizontally
-        self.sky_rect.x -= 3
+        self.sky_rect.x -= 1
         # If the sky has moved completely off-screen, reset its position
         if self.sky_rect.right <= 0:
             self.sky_rect.x = 900
@@ -141,17 +141,47 @@ class Enemy:
                            self.enemy_walk_5, self.enemy_walk_6, self.enemy_walk_7, self.enemy_walk_8,
                            self.enemy_walk_9]
         self.enemy_index = 0
+        self.enemy_attack_index = 0
 
         self.enemy_surf = self.enemy_walk[self.enemy_index]
         self.enemy_rect = self.enemy_surf.get_rect(midbottom=(800, 615))
         self.enemy_gravity = 0
 
+        self.enemy_attack_1 = pygame.image.load('images/enemy/attack/img.png').convert_alpha()
+        self.enemy_attack_1 = pygame.transform.rotozoom(self.enemy_attack_1, 0, 2)
+        self.enemy_attack_2 = pygame.image.load('images/enemy/attack/img_1.png').convert_alpha()
+        self.enemy_attack_2 = pygame.transform.rotozoom(self.enemy_attack_2, 0, 2)
+        self.enemy_attack_3 = pygame.image.load('images/enemy/attack/img_2.png').convert_alpha()
+        self.enemy_attack_3 = pygame.transform.rotozoom(self.enemy_attack_3, 0, 2)
+        self.enemy_attack_4 = pygame.image.load('images/enemy/attack/img_3.png').convert_alpha()
+        self.enemy_attack_4 = pygame.transform.rotozoom(self.enemy_attack_4, 0, 2)
+        self.enemy_attack_5 = pygame.image.load('images/enemy/attack/img_4.png').convert_alpha()
+        self.enemy_attack_5 = pygame.transform.rotozoom(self.enemy_attack_5, 0, 2)
+        self.enemy_attack_6 = pygame.image.load('images/enemy/attack/img_5.png').convert_alpha()
+        self.enemy_attack_6 = pygame.transform.rotozoom(self.enemy_attack_6, 0, 2)
+        self.enemy_attack = [self.enemy_attack_1, self.enemy_attack_2, self.enemy_attack_3, self.enemy_attack_4,
+                             self.enemy_attack_5, self.enemy_attack_6]
+        self.enemy_attack_surf = self.enemy_attack[self.enemy_attack_index]
+        self.enemy_attack_rect = self.enemy_attack_surf.get_rect(midbottom=(800, 615))
 
-    def enemy_animation(self):
-        self.enemy_index += 0.2
+
+    def enemy_walk_animation(self):
+        self.enemy_rect.bottom = 615
+        self.enemy_index += 0.1
         if self.enemy_index >= len(self.enemy_walk):
             self.enemy_index = 0
         self.enemy_surf = self.enemy_walk[int(self.enemy_index)]
+
+    def enemy_attack_animation(self):
+        self.enemy_attack_rect.bottom = 615
+        self.enemy_attack_index += 0.2
+        if self.enemy_attack_index >= len(self.enemy_attack):
+            self.enemy_attack_index = 0
+        self.enemy_attack_surf = self.enemy_attack[int(self.enemy_attack_index)]
+        self.enemy_attack_rect.x -= 2
+        if self.enemy_attack_rect.right <= 0:
+            self.enemy_attack_rect = self.enemy_attack_rect
+
 
 player = Player()
 
@@ -188,8 +218,8 @@ while running:
         player.player_rect.bottom = 615
     player.player_animation()
     screen.blit(player.player_surf, player.player_rect)
-    screen.blit(enemy.enemy_surf, enemy.enemy_rect)
-    enemy.enemy_animation()
+    enemy.enemy_attack_animation()
+    screen.blit(enemy.enemy_attack_surf, enemy.enemy_attack_rect)
 
     # flip() the display to put your work on screen
     pygame.display.flip()
